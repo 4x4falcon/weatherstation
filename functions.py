@@ -1,12 +1,10 @@
 rf = 0
 ws = 0
 ntpset = 0
-bright = 0
 
 # toggle function
 def toggle(p):
         p.value(not p.value())
-
 
 
 # get battery voltage function
@@ -18,51 +16,57 @@ def toggle(p):
 
 def getBatteryVoltage(batteryvoltage):
 	from machine import Pin, ADC
+	global esp32
 
-#ESP 8266
-#	adc = machine.ADC(0)
-#ESP 32
-	adc = ADC(Pin(36))
-	raw = adc.read()
-#ESP 8266
-#	return raw/1024 * batteryvoltage
-#ESP 32
-	return raw/4096 * batteryvoltage
-#	return raw
+	if (esp32):
+		#ESP 32
+		adc = ADC(Pin(36))
+		raw = adc.read()
+		return raw/4096 * batteryvoltage
+
+	else:
+		#ESP 8266
+		adc = machine.ADC(0)
+		return raw/1024 * batteryvoltage
+
 
 # isr for rainfall counter
 # rainfall interrupt callback
 def rainfall_cb(d):
 	global rf
 	rf += 1
-#	print("Rainfall toggled", rf)
 
 # isr for wind speed counter
 # rainfall interrupt callback
 def windspeed_cb(d):
 	global ws
 	ws += 1
-#	print("Windspeed toggled", ws)
 
 
 # read the current wind direction  (just a place marker at the moment)
+"""
+for esp32 can use reed swithed windvane and use an ADC pin to get direction reading.
+for esp8266 would have to need a Holman type wind vane which outputs a direction number between 0 and 15 this requires further programming
+"""
+
 def getWinddir():
 	from machine import Pin, ADC
+	global esp32
 
 	winddir = 0
 
-#ESP 8266
-#	adc = machine.ADC(0)
-#ESP 32
-	adc = ADC(Pin(35))
-	raw = adc.read()
-#ESP 8266
-#	return raw/1024
-#ESP 32
-#	return raw/4096
-	return raw
+	if (esp32):
+		#ESP 32
+		adc = ADC(Pin(35))
+		raw = adc.read()
+	else:
+		#ESP 8266
+		adc = machine.ADC(0)
 
-#	return winddir
+#	return raw
+	return winddir
+
+
 
 # check if rtc needs updating from ntp after 30 minutes (1800 seconds)
 def resetntp(t):
@@ -71,3 +75,4 @@ def resetntp(t):
 		ntpset = t
 		return True
 	return False
+
