@@ -2,6 +2,9 @@
 
 outside = True
 
+esp32 = True
+
+
 from machine import Pin, I2C, RTC
 from time import sleep, sleep_ms
 
@@ -18,13 +21,19 @@ import machine
 import functions as f
 
 
-#esp8266
-#sw1 = DebouncedSwitch(Pin(14, Pin.IN, Pin.PULL_UP), f.windspeed_cb, "d", delay=30)
-#sw2 = DebouncedSwitch(Pin(0, Pin.IN, Pin.PULL_UP), f.rainfall_cb, "d", delay=30)
+if (esp32):
+	#esp32
+	sw1 = DebouncedSwitch(Pin(23, Pin.IN, Pin.PULL_UP), f.windspeed_cb, "d", delay=30)
+	sw2 = DebouncedSwitch(Pin(18, Pin.IN, Pin.PULL_UP), f.rainfall_cb, "d", delay=30)
 
-#esp32
-sw1 = DebouncedSwitch(Pin(23, Pin.IN, Pin.PULL_UP), f.windspeed_cb, "d", delay=30)
-sw2 = DebouncedSwitch(Pin(18, Pin.IN, Pin.PULL_UP), f.rainfall_cb, "d", delay=30)
+	i2c = I2C(scl=Pin(22), sda=Pin(21), freq=10000)
+
+else:
+	#esp8266
+	sw1 = DebouncedSwitch(Pin(14, Pin.IN, Pin.PULL_UP), f.windspeed_cb, "d", delay=30)
+	sw2 = DebouncedSwitch(Pin(0, Pin.IN, Pin.PULL_UP), f.rainfall_cb, "d", delay=30)
+
+	i2c = I2C(scl=Pin(5), sda=Pin(4), freq=10000)
 
 
 # total time between loops in microseconds
@@ -59,10 +68,6 @@ for i in range(tries):
 
 f.ntpset = utime.time() + epochoffset
 
-# ESP32 - Pin assignment
-i2c = I2C(scl=Pin(22), sda=Pin(21), freq=10000)
-# ESP8266 - Pin assignment
-#i2c = I2C(scl=Pin(5), sda=Pin(4), freq=10000)
 
 while True:
 
@@ -125,7 +130,7 @@ while True:
 	f.ws = 0
 	f.rf = 0
 
-	print ('Data: ', data)
+#	print ('Data: ', data)
 
 	try:
 		if (outside):
