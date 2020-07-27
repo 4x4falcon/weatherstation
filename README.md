@@ -6,11 +6,12 @@ PCB and software are designed to use either a Wemos D1 Mini Pro or ESP32 MiniKit
 
 
 Wemos D1 Mini Pro
-![GitHub Logo](/images/Wemos-D1-Mini.png)
+![Wemos D1 Mini Pro](/images/Wemos-D1-Mini.png)
+
 
 
 ESP32 MiniKit
-![GitHub Logo](/images/esp-32-mini-pinout.jpg)
+![ESP32 MiniKit](/images/esp32-minikit.jpg)
 
 
 
