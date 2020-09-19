@@ -1,4 +1,8 @@
 # weatherstation
+
+DEPRECATED:
+Use https://github.com/4x4falcon/weatherstation_ota_class instead
+
 Weather station using either Wemos D1 mini pro or esp32 devkit mini
 
 
