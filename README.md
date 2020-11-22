@@ -22,3 +22,8 @@ The ESP32 MiniKit are available from several manufacturers and may have other na
 
 
 
+Pcb is available from pcb.io
+
+https://PCBs.io/share/rw9kM
+
+
